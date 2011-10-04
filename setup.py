@@ -27,9 +27,20 @@
 #
 # -----------------------------------------------------------------------------
 
+MODULE = 'imlib2'
+VERSION = '0.3.0'
+REQUIRES = ['kaa-base']
+
 # python imports
 import os
 import sys
+
+if 'pip-egg-info' in sys.argv:
+    # Installing via pip; ensure dependencies are visible.
+    from setuptools import setup
+    setup(name='kaa-' + MODULE, version=VERSION, install_requires=REQUIRES)
+    sys.exit(0)
+
 
 try:
     # kaa base imports
@@ -66,15 +77,19 @@ else:
     print "- svg support disabled"
 
 setup(
-    module = 'imlib2',
-    version = '0.3.0',
+    module = MODULE,
+    version = VERSION,
     license = 'LGPL',
-    summary = 'Python bindings for Imlib2',
+    url = 'http://doc.freevo.org/api/kaa/imlib2/',
+    summary = 'Python bindings for Imlib2, a powerful and efficient image processing library.',
+    description = 'kaa.imlib2 provides thread-safe Python bindings for Imlib2, a featureful '
+                   'and efficient image processing library, which produces high quality, '
+                   'anti-aliased output.',
     rpminfo = {
         'requires': 'python-kaa-base >= 0.1.2, imlib2 >= 1.2.1',
         'build_requires': 'python-kaa-base >= 0.1.2, imlib2-devel >= 1.2.1'
     },
     ext_modules = [imlib2so],
+    install_requires = REQUIRES,
     namespace_packages = ['kaa'],
-#    zip_safe=True
 )
