@@ -21,18 +21,36 @@ Where do I get kaa.imlib2?
 --------------------------
 
 The easiest and recommended way to install kaa.imlib2 is using *pip* (available
-as the ``python-pip`` package in Ubuntu and Fedora)::
+as the ``python-pip`` package in Ubuntu and Fedora):
+
+.. code-block:: bash
 
     sudo pip install --upgrade kaa-imlib2
 
 
 Or, if you prefer to install kaa.imlib2 as an egg using *setuptools* (package
-``python-setuptools`` on Ubuntu and Fedora)::
+``python-setuptools`` on Ubuntu and Fedora):
+
+.. code-block:: bash
 
     sudo easy_install -U kaa-imlib2
 
+The most up-to-date tree can be cloned with git:
+
+.. code-block:: bash
+
+    git clone git://github.com/freevo/kaa-imlib2.git
+    cd kaa-imlib2
+    sudo python setup.py install
+
+
+The project is `hosted at GitHub <https://github.com/freevo/kaa-imlib2>`_, so if
+you'd like to contribute, you can can fork it and send pull requests.
+
 Your distribution might already have kaa.imlib2 included in its standard
-repositories, but be aware that these are almost certainly very out of date::
+repositories, but be aware that these are almost certainly very out of date:
+
+.. code-block:: bash
 
     # For Ubuntu and Debian
     sudo apt-get install python-kaa-imlib2
@@ -41,15 +59,8 @@ repositories, but be aware that these are almost certainly very out of date::
     yum install python-kaa-imlib2
 
 
-The most recent in-development version can be obtained via subversion::
-
-    svn co svn://svn.freevo.org/kaa/trunk/imlib2 kaa-imlib2
-    cd kaa-imlib2
-    sudo python setup.py install
-
-
-Finally, source packages are `available on SourceForge
-<http://sourceforge.net/projects/freevo/files/kaa-imlib2/>`_.
+Finally, source packages are `available on GitHub 
+<https://github.com/freevo/kaa-imlib2/downloads>`_.
 
 
 
