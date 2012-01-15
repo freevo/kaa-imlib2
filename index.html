@@ -58,26 +58,32 @@ functionality not found in Imlib2, such as <a title="imlib2.Image.draw_mask" cla
 <h2>Where do I get kaa.imlib2?<a class="headerlink" href="#where-do-i-get-kaa-imlib2" title="Permalink to this headline">¶</a></h2>
 <p>The easiest and recommended way to install kaa.imlib2 is using <em>pip</em> (available
 as the <tt class="docutils literal"><span class="pre">python-pip</span></tt> package in Ubuntu and Fedora):</p>
-<div class="highlight-python"><pre>sudo pip install --upgrade kaa-imlib2</pre>
+<div class="highlight-bash"><div class="highlight"><pre>sudo pip install --upgrade kaa-imlib2
+</pre></div>
 </div>
 <p>Or, if you prefer to install kaa.imlib2 as an egg using <em>setuptools</em> (package
 <tt class="docutils literal"><span class="pre">python-setuptools</span></tt> on Ubuntu and Fedora):</p>
-<div class="highlight-python"><pre>sudo easy_install -U kaa-imlib2</pre>
+<div class="highlight-bash"><div class="highlight"><pre>sudo easy_install -U kaa-imlib2
+</pre></div>
 </div>
+<p>The most up-to-date tree can be cloned with git:</p>
+<div class="highlight-bash"><div class="highlight"><pre>git clone git://github.com/freevo/kaa-imlib2.git
+<span class="nb">cd </span>kaa-imlib2
+sudo python setup.py install
+</pre></div>
+</div>
+<p>The project is <a class="reference external" href="https://github.com/freevo/kaa-imlib2">hosted at GitHub</a>, so if
+you&#8217;d like to contribute, you can can fork it and send pull requests.</p>
 <p>Your distribution might already have kaa.imlib2 included in its standard
 repositories, but be aware that these are almost certainly very out of date:</p>
-<div class="highlight-python"><pre># For Ubuntu and Debian
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># For Ubuntu and Debian</span>
 sudo apt-get install python-kaa-imlib2
 
-# For Fedora
-yum install python-kaa-imlib2</pre>
+<span class="c"># For Fedora</span>
+yum install python-kaa-imlib2
+</pre></div>
 </div>
-<p>The most recent in-development version can be obtained via subversion:</p>
-<div class="highlight-python"><pre>svn co svn://svn.freevo.org/kaa/trunk/imlib2 kaa-imlib2
-cd kaa-imlib2
-sudo python setup.py install</pre>
-</div>
-<p>Finally, source packages are <a class="reference external" href="http://sourceforge.net/projects/freevo/files/kaa-imlib2/">available on SourceForge</a>.</p>
+<p>Finally, source packages are <a class="reference external" href="https://github.com/freevo/kaa-imlib2/downloads">available on GitHub</a>.</p>
 </div>
 </div>
 <div class="section" id="api-documentation">
