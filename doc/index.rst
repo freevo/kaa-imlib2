@@ -169,11 +169,3 @@ beforehand.
 
 The above is just a small sample of what can be done with kaa.imlib2.  Refer
 to the library documentation for full details and more examples.
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
