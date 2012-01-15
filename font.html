@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fonts &mdash; kaa.imlib2 v0.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/kaa.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.3.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kaa.imlib2 v0.3.0 documentation" href="index.html" />
+    <link rel="prev" title="Images" href="image.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="image.html" title="Images"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kaa.imlib2 v0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="fonts">
+<h1>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="imlib2.auto_set_font_path">
+<tt class="descclassname">imlib2.</tt><tt class="descname">auto_set_font_path</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.auto_set_font_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically add to Imlib2&#8217;s font path any directory known by
+FontConfig to contain TrueType fonts.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function spawns <tt class="docutils literal"><span class="pre">fc-list</span></tt> which can take some time to execute
+with a cold cache.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.add_font_path">
+<tt class="descclassname">imlib2.</tt><tt class="descname">add_font_path</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#imlib2.add_font_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the given path to the list of paths to scan when loading fonts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>path</em> (str) &#8211; directory containing fonts</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.load_font">
+<tt class="descclassname">imlib2.</tt><tt class="descname">load_font</tt><big>(</big><em>font</em>, <em>size</em><big>)</big><a class="headerlink" href="#imlib2.load_font" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a TrueType font from the first directory in the font path that
+contains the specified font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>font</em> (str) &#8211; the name of the font to load, e.g. &#8216;arial&#8217;</li>
+<li><em>size</em> &#8211; the size in pixels of the font</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">IOError if the font could not be loaded.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a title="imlib2.Font" class="reference internal" href="#imlib2.Font"><tt class="xref docutils literal"><span class="pre">Font</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.get_font_style_geometry">
+<tt class="descclassname">imlib2.</tt><tt class="descname">get_font_style_geometry</tt><big>(</big><em>style</em><big>)</big><a class="headerlink" href="#imlib2.get_font_style_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the additional size in pixels needed for the given style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>style</em> &#8211; one of the TEXT_STYLE constants</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">6-tuple (left, top, right, bottom, width, height)</td>
+</tr>
+</tbody>
+</table>
+<p>Width and height are included as a convenience, but they are just
+the sum of left+right and top+bottom.</p>
+<p>On Python 2.6 and later this function will return a named tuple.</p>
+</dd></dl>
+
+<div class="section" id="text-styles">
+<span id="textstyles"></span><h2>Text Styles<a class="headerlink" href="#text-styles" title="Permalink to this headline">¶</a></h2>
+<p>These constants are used with <a title="imlib2.Image.draw_text" class="reference external" href="image.html#imlib2.Image.draw_text"><tt class="xref docutils literal"><span class="pre">imlib2.Image.draw_text()</span></tt></a> and
+<a title="imlib2.Font.set_style" class="reference internal" href="#imlib2.Font.set_style"><tt class="xref docutils literal"><span class="pre">imlib2.Font.set_style()</span></tt></a>.</p>
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_PLAIN">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_PLAIN</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_PLAIN" title="Permalink to this definition">¶</a></dt>
+<dd>No special styling.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_SHADOW">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_SHADOW</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_SHADOW" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a lower-right 1-pixel shadow.  The shadow color is specified
+by the <em>shadow</em> attribute.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_SOFT_SHADOW">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_SOFT_SHADOW</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_SOFT_SHADOW" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a lower-right blurred 5-pixel shadow, offset up and left by 1
+pixel.  The shadow color is specified by the <em>shadow</em> attribute.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_FAR_SHADOW">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_FAR_SHADOW</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_FAR_SHADOW" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a lower-right 2-pixel shadow.  The shadow color is specified
+by the <em>shadow</em> attribute.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_FAR_SOFT_SHADOW">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_FAR_SOFT_SHADOW</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_FAR_SOFT_SHADOW" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a lower-right blurred 5-pixel shadow.  The shadow color is
+specified by the <em>shadow</em> attribute.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_OUTLINE">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_OUTLINE</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_OUTLINE" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a 1-pixel outline.  The outline color is specified by the
+<em>outline</em> attribute.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_OUTLINE_SHADOW">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_OUTLINE_SHADOW</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_OUTLINE_SHADOW" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a 1-pixel outline and a lower-right 1-pixel shadow.  The
+outline and shadow and colors are specified by the <em>outline</em> and <em>shadow</em>
+attributes respectively.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_SOFT_OUTLINE">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_SOFT_OUTLINE</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_SOFT_OUTLINE" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a blurred 2-pixel outline.  The outline color is specified by
+the <em>outline</em> attribute.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_OUTLINE_SOFT_SHADOW">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_OUTLINE_SOFT_SHADOW</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_OUTLINE_SOFT_SHADOW" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a 1-pixel outline and a lower-right blurred 5-pixel shadow.
+The outline and shadow and colors are specified by the <em>outline</em> and
+<em>shadow</em> attributes respectively.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.TEXT_STYLE_GLOW">
+<tt class="descclassname">imlib2.</tt><tt class="descname">TEXT_STYLE_GLOW</tt><a class="headerlink" href="#imlib2.TEXT_STYLE_GLOW" title="Permalink to this definition">¶</a></dt>
+<dd>Draw text with a double outline.  The outer and inner outline colors are
+specified by the <em>glow</em> and <em>glow2</em> attributes respectively.</dd></dl>
+
+</div>
+<div class="section" id="font-objects">
+<h2>Font Objects<a class="headerlink" href="#font-objects" title="Permalink to this headline">¶</a></h2>
+<p><dl class="class">
+<dt id="imlib2.Font">
+<em class="property">class </em><tt class="descclassname">imlib2.</tt><tt class="descname">Font</tt><big>(</big><em>fontdesc</em>, <em>color='#ffff'</em><big>)</big><a class="headerlink" href="#imlib2.Font" title="Permalink to this definition">¶</a></dt>
+<dd><p>Font class representing an Imlib2 Font object.  Font objects may be assigned
+to <a title="imlib2.Image" class="reference external" href="image.html#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> objects via their <a title="imlib2.Image.font" class="reference external" href="image.html#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a> property
+to control font, size, and style to <a title="imlib2.Image.draw_text" class="reference external" href="image.html#imlib2.Image.draw_text"><tt class="xref docutils literal"><span class="pre">draw_text()</span></tt></a> operations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>fontdesc</em> (str or 2-tuple) &#8211; a description of the font either in the form <tt class="docutils literal"><span class="pre">name/size</span></tt>,
+where name is the filename of a <tt class="docutils literal"><span class="pre">.ttf</span></tt> file in the
+font path, or a tuple in the form <tt class="docutils literal"><span class="pre">('name',</span> <span class="pre">size)</span></tt>.</li>
+<li><em>color</em> &#8211; the default color for text rendered with this font, specified
+as any value that could be passed by
+<a title="imlib2.normalize_color" class="reference external" href="image.html#imlib2.normalize_color"><tt class="xref docutils literal"><span class="pre">normalize_color()</span></tt></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Font paths can be registered by calling <a title="imlib2.add_font_path" class="reference internal" href="#imlib2.add_font_path"><tt class="xref docutils literal"><span class="pre">add_font_path()</span></tt></a> or
+<a title="imlib2.auto_set_font_path" class="reference internal" href="#imlib2.auto_set_font_path"><tt class="xref docutils literal"><span class="pre">auto_set_font_path()</span></tt></a>.</p>
+<p>Once a Font object is instantiated the font name cannot be changed, however
+the size can be changed by adjusting the <a title="imlib2.Font.size" class="reference internal" href="#imlib2.Font.size"><tt class="xref docutils literal"><span class="pre">size</span></tt></a> property.</p>
+<p><h4>Synopsis</h4><div class="kaa synopsis">
+<div class="heading">Class Hierarchy</div><p class="hierarchy"><tt class="xref docutils literal current">imlib2.Font</tt><br /></p>
+<div class="heading">Methods</div>
+<table>
+<tr><th><a title="imlib2.Font.get_style_geometry" class="reference internal" href="#imlib2.Font.get_style_geometry"><tt class="xref docutils literal"><span class="pre">get_style_geometry()</span></tt></a></th><td class="desc">Return the additional size in pixels needed for the current style.</td></tr>
+<tr><th><a title="imlib2.Font.get_text_size" class="reference internal" href="#imlib2.Font.get_text_size"><tt class="xref docutils literal"><span class="pre">get_text_size()</span></tt></a></th><td class="desc">Calculate font metrics (size and advance) for the specified text when
+rendered by the current font.</td></tr>
+<tr><th><a title="imlib2.Font.set_color" class="reference internal" href="#imlib2.Font.set_color"><tt class="xref docutils literal"><span class="pre">set_color()</span></tt></a></th><td class="desc">Deprecated: use the <a title="imlib2.Font.color" class="reference internal" href="#imlib2.Font.color"><tt class="xref docutils literal"><span class="pre">color</span></tt></a> property instead.</td></tr>
+<tr><th><a title="imlib2.Font.set_size" class="reference internal" href="#imlib2.Font.set_size"><tt class="xref docutils literal"><span class="pre">set_size()</span></tt></a></th><td class="desc">Deprecated: use the <a title="imlib2.Font.size" class="reference internal" href="#imlib2.Font.size"><tt class="xref docutils literal"><span class="pre">size</span></tt></a> property instead.</td></tr>
+<tr><th><a title="imlib2.Font.set_style" class="reference internal" href="#imlib2.Font.set_style"><tt class="xref docutils literal"><span class="pre">set_style()</span></tt></a></th><td class="desc">Set the default text style for future text rendered with this font.</td></tr>
+</table>
+<div class="heading">Properties</div>
+<table>
+<tr><th><a title="imlib2.Font.ascent" class="reference internal" href="#imlib2.Font.ascent"><tt class="xref docutils literal"><span class="pre">ascent</span></tt></a></th><td>read-only</td><td class="desc">The number of pixels from the baseline to the top of the text for
+nominal characters.</td></tr>
+<tr><th><a title="imlib2.Font.color" class="reference internal" href="#imlib2.Font.color"><tt class="xref docutils literal"><span class="pre">color</span></tt></a></th><td>read/write</td><td class="desc">A 4-tuple containing the red, green, blue, and alpha values from 0-255.</td></tr>
+<tr><th><a title="imlib2.Font.descent" class="reference internal" href="#imlib2.Font.descent"><tt class="xref docutils literal"><span class="pre">descent</span></tt></a></th><td>read-only</td><td class="desc">The number of pixels from the baseline to the bottom of the text for
+nominal characters.</td></tr>
+<tr><th><a title="imlib2.Font.max_ascent" class="reference internal" href="#imlib2.Font.max_ascent"><tt class="xref docutils literal"><span class="pre">max_ascent</span></tt></a></th><td>read-only</td><td class="desc">The maximum ascent for all glyphs in the font.</td></tr>
+<tr><th><a title="imlib2.Font.max_descent" class="reference internal" href="#imlib2.Font.max_descent"><tt class="xref docutils literal"><span class="pre">max_descent</span></tt></a></th><td>read-only</td><td class="desc">The maximum descent for all glyphs in the font.</td></tr>
+<tr><th><a title="imlib2.Font.name" class="reference internal" href="#imlib2.Font.name"><tt class="xref docutils literal"><span class="pre">name</span></tt></a></th><td>read-only</td><td class="desc">The file name of the font (without the <tt class="docutils literal"><span class="pre">.ttf</span></tt> extension), e.g. <tt class="docutils literal"><span class="pre">VeraBd</span></tt></td></tr>
+<tr><th><a title="imlib2.Font.size" class="reference internal" href="#imlib2.Font.size"><tt class="xref docutils literal"><span class="pre">size</span></tt></a></th><td>read/write</td><td class="desc">The size in pixels of the font.</td></tr>
+</table>
+<div class="heading">Signals</div><div class="nomembers">This class has no signals.</div>
+</div>
+<h4>Methods</h4><dl class="method">
+<dt id="imlib2.Font.get_style_geometry">
+<tt class="descname">get_style_geometry</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.Font.get_style_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the additional size in pixels needed for the current style.</p>
+<p>See <a title="imlib2.get_font_style_geometry" class="reference internal" href="#imlib2.get_font_style_geometry"><tt class="xref docutils literal"><span class="pre">get_font_style_geometry()</span></tt></a> for more details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Font.get_text_size">
+<tt class="descname">get_text_size</tt><big>(</big><em>text</em><big>)</big><a class="headerlink" href="#imlib2.Font.get_text_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate font metrics (size and advance) for the specified text when
+rendered by the current font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>text</em> (str or unicode) &#8211; the text whose metrics to calculate</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">4-tuple (width, height, horizontal advance, vertical advance)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Font.set_color">
+<tt class="descname">set_color</tt><big>(</big><em>color</em><big>)</big><a class="headerlink" href="#imlib2.Font.set_color" title="Permalink to this definition">¶</a></dt>
+<dd>Deprecated: use the <a title="imlib2.Font.color" class="reference internal" href="#imlib2.Font.color"><tt class="xref docutils literal"><span class="pre">color</span></tt></a> property instead.</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Font.set_size">
+<tt class="descname">set_size</tt><big>(</big><em>size</em><big>)</big><a class="headerlink" href="#imlib2.Font.set_size" title="Permalink to this definition">¶</a></dt>
+<dd>Deprecated: use the <a title="imlib2.Font.size" class="reference internal" href="#imlib2.Font.size"><tt class="xref docutils literal"><span class="pre">size</span></tt></a> property instead.</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Font.set_style">
+<tt class="descname">set_style</tt><big>(</big><em>style</em>, <em>shadow='#000f'</em>, <em>outline='#000f'</em>, <em>glow='#000f'</em>, <em>glow2='#000f'</em><big>)</big><a class="headerlink" href="#imlib2.Font.set_style" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the default text style for future text rendered with this font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>style</em> (a <a class="reference internal" href="#textstyles"><em>TEXT_STYLE</em></a> constant) &#8211; the text style</li>
+<li><em>shadow</em> &#8211; color used for any shadow styles</li>
+<li><em>outline</em> &#8211; color used for any outline styles</li>
+<li><em>glow</em> &#8211; color used for <a title="imlib2.TEXT_STYLE_GLOW" class="reference internal" href="#imlib2.TEXT_STYLE_GLOW"><tt class="xref docutils literal"><span class="pre">TEXT_STYLE_GLOW</span></tt></a></li>
+<li><em>glow2</em> &#8211; color used for <a title="imlib2.TEXT_STYLE_GLOW" class="reference internal" href="#imlib2.TEXT_STYLE_GLOW"><tt class="xref docutils literal"><span class="pre">TEXT_STYLE_GLOW</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<h4>Properties</h4><dl class="attribute">
+<dt id="imlib2.Font.ascent">
+<tt class="descname">ascent</tt><a class="headerlink" href="#imlib2.Font.ascent" title="Permalink to this definition">¶</a></dt>
+<dd>The number of pixels from the baseline to the top of the text for
+nominal characters.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Font.color">
+<tt class="descname">color</tt><a class="headerlink" href="#imlib2.Font.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>A 4-tuple containing the red, green, blue, and alpha values from 0-255.</p>
+<p>This property may be set to any value accepted by
+<a title="imlib2.normalize_color" class="reference external" href="image.html#imlib2.normalize_color"><tt class="xref docutils literal"><span class="pre">normalize_color()</span></tt></a>, but it will always be converted to a
+4-tuple.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Font.descent">
+<tt class="descname">descent</tt><a class="headerlink" href="#imlib2.Font.descent" title="Permalink to this definition">¶</a></dt>
+<dd>The number of pixels from the baseline to the bottom of the text for
+nominal characters.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Font.max_ascent">
+<tt class="descname">max_ascent</tt><a class="headerlink" href="#imlib2.Font.max_ascent" title="Permalink to this definition">¶</a></dt>
+<dd>The maximum ascent for all glyphs in the font.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Font.max_descent">
+<tt class="descname">max_descent</tt><a class="headerlink" href="#imlib2.Font.max_descent" title="Permalink to this definition">¶</a></dt>
+<dd>The maximum descent for all glyphs in the font.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Font.name">
+<tt class="descname">name</tt><a class="headerlink" href="#imlib2.Font.name" title="Permalink to this definition">¶</a></dt>
+<dd>The file name of the font (without the <tt class="docutils literal"><span class="pre">.ttf</span></tt> extension), e.g. <tt class="docutils literal"><span class="pre">VeraBd</span></tt></dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Font.size">
+<tt class="descname">size</tt><a class="headerlink" href="#imlib2.Font.size" title="Permalink to this definition">¶</a></dt>
+<dd>The size in pixels of the font.</dd></dl>
+
+</p>
+</dd></dl>
+
+</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Fonts</a><ul>
+<li><a class="reference external" href="#text-styles">Text Styles</a></li>
+<li><a class="reference external" href="#font-objects">Font Objects</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="image.html"
+                                  title="previous chapter">Images</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/font.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="image.html" title="Images"
+             >previous</a> |</li>
+        <li><a href="index.html">kaa.imlib2 v0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2004-2010, Dirk Meyer, Jason Tackaberry.
+      Last updated on Jan 15, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

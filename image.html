@@ -1,0 +1,1206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Images &mdash; kaa.imlib2 v0.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/kaa.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.3.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kaa.imlib2 v0.3.0 documentation" href="index.html" />
+    <link rel="next" title="Fonts" href="font.html" />
+    <link rel="prev" title="kaa.imlib2 — Image Processing Library" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="font.html" title="Fonts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="kaa.imlib2 — Image Processing Library"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kaa.imlib2 v0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="images">
+<h1>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="opening-and-creating-images">
+<h2>Opening and Creating Images<a class="headerlink" href="#opening-and-creating-images" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="imlib2.open">
+<tt class="descclassname">imlib2.</tt><tt class="descname">open</tt><big>(</big><em>filename</em>, <em>size=None</em><big>)</big><a class="headerlink" href="#imlib2.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode an image from disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>filename</em> (str) &#8211; path to the file to open</li>
+<li><em>size</em> (2-tuple of ints) &#8211; initial width and height of the image; if either dimension is
+-1, it will be computed based on aspect ratio; if <em>size</em> is
+None, use the default image size.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>kaa.imlib2 (unlike Imlib2 natively) supports rasterization of SVG images.
+however detection is based on file extension.  If you need to rasterize
+an SVG file that doesn&#8217;t have a <tt class="docutils literal"><span class="pre">.svg</span></tt> extension, you will need to
+use <a title="imlib2.open_from_memory" class="reference internal" href="#imlib2.open_from_memory"><tt class="xref docutils literal"><span class="pre">open_from_memory()</span></tt></a>.</p>
+<p>For non-SVG images, this function will cache the raw image data of the
+loaded file, so that subsequent invocations with the given filename will
+load from cache.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.jpg&#39;</span><span class="p">)</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1920x1080 0x9347eac&gt;</span>
+<span class="go"># SVGs can be loaded the same way.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;image.svg&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">&lt;kaa.imlib2.Image object size=640x371 at 0xb69df84c&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.open_without_cache">
+<tt class="descclassname">imlib2.</tt><tt class="descname">open_without_cache</tt><big>(</big><em>filename</em>, <em>size=None</em><big>)</big><a class="headerlink" href="#imlib2.open_without_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode an image from disk without looking in the cache (or storing
+the result in the cache).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>filename</em> (str) &#8211; path to the file to open</li>
+<li><em>size</em> (2-tuple of ints) &#8211; initial width and height of the image; if either dimension is
+-1, it will be computed based on aspect ratio; if <em>size</em> is
+None, use the default image size.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.open_from_memory">
+<tt class="descclassname">imlib2.</tt><tt class="descname">open_from_memory</tt><big>(</big><em>buf</em>, <em>size=None</em><big>)</big><a class="headerlink" href="#imlib2.open_from_memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode an image stored in memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>buf</em> (str or buffer) &#8211; encoded image data</li>
+<li><em>size</em> (2-tuple of ints) &#8211; initial width and height of the image; if either dimension is
+-1, it will be computed based on aspect ratio; if <em>size</em> is
+None, use the default image size.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Due to limitations in Imlib2, this function uses POSIX shared
+memory if it&#8217;s available (such as on Linux).  If it&#8217;s not available, a
+temporary file will be created in /tmp.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="go"># This example is a bit contrived because you could easily use open(), but</span>
+<span class="go"># shows that if you have an existing buffer with encoded image data, you</span>
+<span class="go"># can use this function to decode it into an Image object.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="s">&#39;file.jpg&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">open_from_memory</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1920x1080 0x9347eac&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.new">
+<tt class="descclassname">imlib2.</tt><tt class="descname">new</tt><big>(</big><em>size</em>, <em>bytes=None</em>, <em>from_format='BGRA'</em>, <em>copy=True</em><big>)</big><a class="headerlink" href="#imlib2.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Image object (optionally) from existing raw data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>size</em> (2-tuple of ints) &#8211; width and height of the image to create</li>
+<li><em>bytes</em> (str, buffer, int, None) &#8211; raw image data from which to initialize the image, which must be
+in the RGB colorspace; if an int, specifies a pointer to a
+location in memory holding the raw image (default: None)</li>
+<li><em>from_format</em> (str) &#8211; specifies the pixel format of the supplied raw data;
+can be any permutation of <tt class="docutils literal"><span class="pre">RGB</span></tt> or <tt class="docutils literal"><span class="pre">RGBA</span></tt>.
+(default: <tt class="docutils literal"><span class="pre">BGRA</span></tt>, which is Imlib2&#8217;s native pixel
+format).</li>
+<li><em>copy</em> (bool) &#8211; if True, the raw data <em>bytes</em> will be copied to the Imlib2
+object. If False, <em>bytes</em> must be either a writable buffer
+or an integer pointing to a location in memory; in this case,
+if <em>from_format</em> is <tt class="docutils literal"><span class="pre">BGRA</span></tt> then Imlib2 will directly use
+the supplied buffer; if it&#8217;s not <tt class="docutils literal"><span class="pre">BGRA</span></tt> then a colorspace
+conversion is necessary, but an in-place conversion will be
+done if possible.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>bytes</em> can be an integer, acting as a pointer to memory, which is useful
+with interoperating with other libraries, however this should be used with
+extreme care as incorrect values can segfault the interpeter.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Formats (e.g. <tt class="docutils literal"><span class="pre">BGRA</span></tt>) indicate the byte order when the image
+is viewed as a memory buffer on little-endian machines.  Each pixel is a
+32-bit quantity where blue is stored in the least significant byte and
+alpha is the most significant byte.  On big-endian architectures, the
+format <tt class="docutils literal"><span class="pre">BGRA</span></tt> is actually stored in the order <tt class="docutils literal"><span class="pre">ARGB</span></tt>.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="go"># Create a new, blank 1920x1080 image.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1920x1080 at 0x9c0dbec&gt;</span>
+<span class="go"># Create a new 1024x768 image initialized from existing data (all pixels</span>
+<span class="go"># 50% opaque red)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="nb">bytes</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\x00\x00\xff\x7f</span><span class="s">&#39;</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">768</span><span class="p">)</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1024x768 at 0x9c79d4c&gt;</span>
+<span class="go"># Create a new 1024x768 image initialized from 24-bit data whose pixel</span>
+<span class="go"># order is RGB.  (Alpha channel is initialized to 255)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="nb">bytes</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\xff\x00\x00</span><span class="s">&#39;</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">768</span><span class="p">,</span> <span class="n">from_format</span><span class="o">=</span><span class="s">&#39;RGB&#39;</span><span class="p">)</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1024x768 at 0x9c79dec&gt;</span>
+</pre></div>
+</div>
+<p>The following code shows how you can use the array type to share a writable
+buffer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">array</span>
+<span class="go"># Initialize an array with 50% opaque purple.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\xff\x00\xff\x7f</span><span class="s">&#39;</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">768</span><span class="p">)</span>
+<span class="go"># Create the image with copy=False so we share the buffer.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go"># Note the value of the first pixel.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">array(&#39;c&#39;, &#39;\xff\x00\xff\x7f&#39;)</span>
+<span class="go"># Clear the image and look at the same pixel, note how it&#39;s changed in the</span>
+<span class="go"># buffer.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">array(&#39;c&#39;, &#39;\x00\x00\x00\x00&#39;)</span>
+</pre></div>
+</div>
+<p>Although you can use writable buffers directly as in the above example,
+you can also pass a integer which represents a pointer to the buffer.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\xff\x00\xff\x7f</span><span class="s">&#39;</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">768</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ptr</span><span class="p">,</span> <span class="nb">len</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">buffer_info</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ptr</span>
+<span class="go">3022487560L</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">array(&#39;c&#39;, &#39;\x00\x00\x00\x00&#39;)</span>
+</pre></div>
+</div>
+<p>You would never actually do this for arrays, but if you have a pointer
+to a buffer returned by some other library (gotten through ctypes, perhaps),
+you can use the pointer as a buffer.  In this case, you maintain ownership
+over the buffer, and it is your responsibility to free it.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="image-cache">
+<h2>Image Cache<a class="headerlink" href="#image-cache" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="imlib2.set_cache_size">
+<tt class="descclassname">imlib2.</tt><tt class="descname">set_cache_size</tt><big>(</big><em>size</em><big>)</big><a class="headerlink" href="#imlib2.set_cache_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the size of Imlib2&#8217;s internal image cache.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>size</em> (int) &#8211; size in bytes; a value of 0 will flush the cache and prevent
+future caching.</td>
+</tr>
+</tbody>
+</table>
+<p>When the cache size is set, Imlib2 will flush old images from the cache
+until the current cache usage is less than or equal to the cache size.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The cache size is initialized to 4MB.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.get_cache_size">
+<tt class="descclassname">imlib2.</tt><tt class="descname">get_cache_size</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.get_cache_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the size of Imlib2&#8217;s internal image cache.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">size in bytes of the cache</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="image-objects">
+<h2>Image Objects<a class="headerlink" href="#image-objects" title="Permalink to this headline">¶</a></h2>
+<p><dl class="class">
+<dt id="imlib2.Image">
+<em class="property">class </em><tt class="descclassname">imlib2.</tt><tt class="descname">Image</tt><big>(</big><em>image_or_filename</em>, <em>use_cache=True</em>, <em>size=None</em><big>)</big><a class="headerlink" href="#imlib2.Image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Image class representing an Imlib2 Image object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>image_or_filename</em> (<a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> or str) &#8211; another <a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object
+to clone, or a filename of the encoded image
+to load on disk.</li>
+<li><em>use_cache</em> (bool) &#8211; if True, will use Imlib2&#8217;s internal cache for image data</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>It is possible to create Image objects directly, but the
+<a title="imlib2.open" class="reference internal" href="#imlib2.open"><tt class="xref docutils literal"><span class="pre">imlib2.open()</span></tt></a> or <a title="imlib2.new" class="reference internal" href="#imlib2.new"><tt class="xref docutils literal"><span class="pre">imlib2.new()</span></tt></a> module functions are
+more likely to be useful.</p>
+<p><h4>Synopsis</h4><div class="kaa synopsis">
+<div class="heading">Class Hierarchy</div><p class="hierarchy"><tt class="xref docutils literal"><span class="pre">kaa.Object</span></tt><br />&#9492;&#9472; <tt class="xref docutils literal current">imlib2.Image</tt><br /></p>
+<div class="heading">Methods</div>
+<table>
+<tr><th><a title="imlib2.Image.as_gdk_pixbuf" class="reference internal" href="#imlib2.Image.as_gdk_pixbuf"><tt class="xref docutils literal"><span class="pre">as_gdk_pixbuf()</span></tt></a></th><td class="desc">Convert the image into a gdk.Pixbuf object.</td></tr>
+<tr><th><a title="imlib2.Image.blend" class="reference internal" href="#imlib2.Image.blend"><tt class="xref docutils literal"><span class="pre">blend()</span></tt></a></th><td class="desc">Blend the supplied image onto the current image.</td></tr>
+<tr><th><a title="imlib2.Image.blur" class="reference internal" href="#imlib2.Image.blur"><tt class="xref docutils literal"><span class="pre">blur()</span></tt></a></th><td class="desc">Blur the image in-place.</td></tr>
+<tr><th><a title="imlib2.Image.clear" class="reference internal" href="#imlib2.Image.clear"><tt class="xref docutils literal"><span class="pre">clear()</span></tt></a></th><td class="desc">Clear the specified rectangle, resetting all pixels in that rectangle
+to fully transparent (<tt class="docutils literal"><span class="pre">#0000</span></tt>).</td></tr>
+<tr><th><a title="imlib2.Image.copy" class="reference internal" href="#imlib2.Image.copy"><tt class="xref docutils literal"><span class="pre">copy()</span></tt></a></th><td class="desc">Create a copy of the current image.</td></tr>
+<tr><th><a title="imlib2.Image.copy_rect" class="reference internal" href="#imlib2.Image.copy_rect"><tt class="xref docutils literal"><span class="pre">copy_rect()</span></tt></a></th><td class="desc">Copy a region within the image.</td></tr>
+<tr><th><a title="imlib2.Image.crop" class="reference internal" href="#imlib2.Image.crop"><tt class="xref docutils literal"><span class="pre">crop()</span></tt></a></th><td class="desc">Crop the image and return a new image.</td></tr>
+<tr><th><a title="imlib2.Image.draw_ellipse" class="reference internal" href="#imlib2.Image.draw_ellipse"><tt class="xref docutils literal"><span class="pre">draw_ellipse()</span></tt></a></th><td class="desc">Draw an ellipse (filled or outline) on the image.</td></tr>
+<tr><th><a title="imlib2.Image.draw_mask" class="reference internal" href="#imlib2.Image.draw_mask"><tt class="xref docutils literal"><span class="pre">draw_mask()</span></tt></a></th><td class="desc">Apply the luma channel of another image to the alpha channel of the
+current image.</td></tr>
+<tr><th><a title="imlib2.Image.draw_rectangle" class="reference internal" href="#imlib2.Image.draw_rectangle"><tt class="xref docutils literal"><span class="pre">draw_rectangle()</span></tt></a></th><td class="desc">Draw a rectangle (filled or outline) on the image.</td></tr>
+<tr><th><a title="imlib2.Image.draw_text" class="reference internal" href="#imlib2.Image.draw_text"><tt class="xref docutils literal"><span class="pre">draw_text()</span></tt></a></th><td class="desc">Draw text on the image, optionally stylized.</td></tr>
+<tr><th><a title="imlib2.Image.flip_diagonal" class="reference internal" href="#imlib2.Image.flip_diagonal"><tt class="xref docutils literal"><span class="pre">flip_diagonal()</span></tt></a></th><td class="desc">Flip the image on along its diagonal, so that the top-right corner is
+mapped to the bottom left.</td></tr>
+<tr><th><a title="imlib2.Image.flip_horizontal" class="reference internal" href="#imlib2.Image.flip_horizontal"><tt class="xref docutils literal"><span class="pre">flip_horizontal()</span></tt></a></th><td class="desc">Flip the image horizontally (along its vertical axis).</td></tr>
+<tr><th><a title="imlib2.Image.flip_vertical" class="reference internal" href="#imlib2.Image.flip_vertical"><tt class="xref docutils literal"><span class="pre">flip_vertical()</span></tt></a></th><td class="desc">Flip the image vertically (along its horizontal axis).</td></tr>
+<tr><th><a title="imlib2.Image.get_font" class="reference internal" href="#imlib2.Image.get_font"><tt class="xref docutils literal"><span class="pre">get_font()</span></tt></a></th><td class="desc">Deprecated: use the <a title="imlib2.Image.font" class="reference internal" href="#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a> property instead.</td></tr>
+<tr><th><a title="imlib2.Image.get_pixel" class="reference internal" href="#imlib2.Image.get_pixel"><tt class="xref docutils literal"><span class="pre">get_pixel()</span></tt></a></th><td class="desc">Fetch the RGBA value of a specifix pixel.</td></tr>
+<tr><th><a title="imlib2.Image.get_raw_data" class="reference internal" href="#imlib2.Image.get_raw_data"><tt class="xref docutils literal"><span class="pre">get_raw_data()</span></tt></a></th><td class="desc">Return the underlying raw data of the image.</td></tr>
+<tr><th><a title="imlib2.Image.orientate" class="reference internal" href="#imlib2.Image.orientate"><tt class="xref docutils literal"><span class="pre">orientate()</span></tt></a></th><td class="desc">Perform in-place 90 degree rotations on the image.</td></tr>
+<tr><th><a title="imlib2.Image.put_back_raw_data" class="reference internal" href="#imlib2.Image.put_back_raw_data"><tt class="xref docutils literal"><span class="pre">put_back_raw_data()</span></tt></a></th><td class="desc">Put back the writable buffer that was obtained with
+<a title="imlib2.Image.get_raw_data" class="reference internal" href="#imlib2.Image.get_raw_data"><tt class="xref docutils literal"><span class="pre">get_raw_data()</span></tt></a>.</td></tr>
+<tr><th><a title="imlib2.Image.rotate" class="reference internal" href="#imlib2.Image.rotate"><tt class="xref docutils literal"><span class="pre">rotate()</span></tt></a></th><td class="desc">Rotate the image and return a new image.</td></tr>
+<tr><th><a title="imlib2.Image.save" class="reference internal" href="#imlib2.Image.save"><tt class="xref docutils literal"><span class="pre">save()</span></tt></a></th><td class="desc">Save the image to a file.</td></tr>
+<tr><th><a title="imlib2.Image.scale" class="reference internal" href="#imlib2.Image.scale"><tt class="xref docutils literal"><span class="pre">scale()</span></tt></a></th><td class="desc">Scale the image and return a new image.</td></tr>
+<tr><th><a title="imlib2.Image.scale_preserve_aspect" class="reference internal" href="#imlib2.Image.scale_preserve_aspect"><tt class="xref docutils literal"><span class="pre">scale_preserve_aspect()</span></tt></a></th><td class="desc">Scale the image while preserving the original aspect ratio and return a
+new image.</td></tr>
+<tr><th><a title="imlib2.Image.set_alpha" class="reference internal" href="#imlib2.Image.set_alpha"><tt class="xref docutils literal"><span class="pre">set_alpha()</span></tt></a></th><td class="desc">Deprecated: use <a title="imlib2.Image.set_has_alpha" class="reference internal" href="#imlib2.Image.set_has_alpha"><tt class="xref docutils literal"><span class="pre">set_has_alpha()</span></tt></a> instead.</td></tr>
+<tr><th><a title="imlib2.Image.set_font" class="reference internal" href="#imlib2.Image.set_font"><tt class="xref docutils literal"><span class="pre">set_font()</span></tt></a></th><td class="desc">Deprecated: use the <a title="imlib2.Image.font" class="reference internal" href="#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a> property instead.</td></tr>
+<tr><th><a title="imlib2.Image.set_has_alpha" class="reference internal" href="#imlib2.Image.set_has_alpha"><tt class="xref docutils literal"><span class="pre">set_has_alpha()</span></tt></a></th><td class="desc">Enable or disable the alpha channel.</td></tr>
+<tr><th><a title="imlib2.Image.sharpen" class="reference internal" href="#imlib2.Image.sharpen"><tt class="xref docutils literal"><span class="pre">sharpen()</span></tt></a></th><td class="desc">Sharpen the image in-place.</td></tr>
+<tr><th><a title="imlib2.Image.thumbnail" class="reference internal" href="#imlib2.Image.thumbnail"><tt class="xref docutils literal"><span class="pre">thumbnail()</span></tt></a></th><td class="desc">Scale the image in-place, preserving the original aspect ratio.</td></tr>
+</table>
+<div class="heading">Properties</div>
+<table>
+<tr><th><a title="imlib2.Image.filename" class="reference internal" href="#imlib2.Image.filename"><tt class="xref docutils literal"><span class="pre">filename</span></tt></a></th><td>read-only</td><td class="desc">The filename of the image if lodaed from a file, None otherwise.</td></tr>
+<tr><th><a title="imlib2.Image.font" class="reference internal" href="#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a></th><td>read/write</td><td class="desc"><a title="imlib2.Font" class="reference external" href="font.html#imlib2.Font"><tt class="xref docutils literal"><span class="pre">Font</span></tt></a> object specifying font context used by
+<a title="imlib2.Image.draw_text" class="reference internal" href="#imlib2.Image.draw_text"><tt class="xref docutils literal"><span class="pre">draw_text()</span></tt></a>, or None if no font was set.</td></tr>
+<tr><th><a title="imlib2.Image.format" class="reference internal" href="#imlib2.Image.format"><tt class="xref docutils literal"><span class="pre">format</span></tt></a></th><td>read-only</td><td class="desc">The encoded format (e.g. &#8216;png&#8217;, &#8216;jpeg&#8217;) of the image if loaded from a
+file, None otherwise.</td></tr>
+<tr><th><a title="imlib2.Image.has_alpha" class="reference internal" href="#imlib2.Image.has_alpha"><tt class="xref docutils literal"><span class="pre">has_alpha</span></tt></a></th><td>read-only</td><td class="desc">True if the image has an alpha channel, False otherwise.</td></tr>
+<tr><th><a title="imlib2.Image.height" class="reference internal" href="#imlib2.Image.height"><tt class="xref docutils literal"><span class="pre">height</span></tt></a></th><td>read-only</td><td class="desc">The height of the image in pixels.</td></tr>
+<tr><th><a title="imlib2.Image.mode" class="reference internal" href="#imlib2.Image.mode"><tt class="xref docutils literal"><span class="pre">mode</span></tt></a></th><td>read-only</td><td class="desc">The pixel format of the decoded image in memory (always <tt class="docutils literal"><span class="pre">BGRA</span></tt>).</td></tr>
+<tr><th><a title="imlib2.Image.rowstride" class="reference internal" href="#imlib2.Image.rowstride"><tt class="xref docutils literal"><span class="pre">rowstride</span></tt></a></th><td>read-only</td><td class="desc">The number of bytes each row of pixels occupies in memory.</td></tr>
+<tr><th><a title="imlib2.Image.size" class="reference internal" href="#imlib2.Image.size"><tt class="xref docutils literal"><span class="pre">size</span></tt></a></th><td>read-only</td><td class="desc">A 2-tuple of the width and height of the image in pixels.</td></tr>
+<tr><th><a title="imlib2.Image.width" class="reference internal" href="#imlib2.Image.width"><tt class="xref docutils literal"><span class="pre">width</span></tt></a></th><td>read-only</td><td class="desc">The width of the image in pixels.</td></tr>
+</table>
+<div class="heading">Signals</div>
+<table>
+<tr><th><a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a></th><td class="desc">Emitted when the image has been altered in some way.</td></tr>
+</table>
+
+</div>
+<h4>Methods</h4><dl class="method">
+<dt id="imlib2.Image.as_gdk_pixbuf">
+<tt class="descname">as_gdk_pixbuf</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.Image.as_gdk_pixbuf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the image into a gdk.Pixbuf object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Raises:</th><td class="field-body">ImportError if pygtk is not available.</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference external" href="http://library.gnome.org/devel/pygtk/stable/class-gdkpixbuf.html">gdk.Pixbuf</a> 
+object containing a copy of the image data</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.png&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">as_gdk_pixbuf</span><span class="p">()</span>
+<span class="go">&lt;gtk.gdk.Pixbuf object at 0x909334c (GdkPixbuf at 0x9452318)&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.blend">
+<tt class="descname">blend</tt><big>(</big><em>src</em>, <em>src_pos=(0</em>, <em>0)</em>, <em>src_size=(-1</em>, <em>-1)</em>, <em>dst_pos=(0</em>, <em>0)</em>, <em>dst_size=(-1</em>, <em>-1)</em>, <em>alpha=255</em>, <em>merge_alpha=True</em><big>)</big><a class="headerlink" href="#imlib2.Image.blend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blend the supplied image onto the current image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>src</em> (<a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object) &#8211; the image being blended onto &#8216;self&#8217;</li>
+<li><em>dst_pos</em> (2-tuple of ints) &#8211; the x, y coordinates where the source image will be
+blended onto the destination image</li>
+<li><em>src_pos</em> (2-tuple of ints) &#8211; the x, y coordinates within the source image where
+blending will start.</li>
+<li><em>src_size</em> (2-tuple of ints) &#8211; the width and height of the source image to be
+blended.  A value of -1 for either one indicates the
+full dimension of the source image.</li>
+<li><em>alpha</em> (int) &#8211; the &#8220;layer&#8221; alpha that is applied to all pixels of the
+image.  If an individual pixel has an alpha of 128 and
+this value is 128, the resulting pixel will have an alpha
+of 64 before it is blended to the destination image.  0
+is fully transparent and 255 is fully opaque, and 256 is
+a special value that means alpha blending is disabled.</li>
+<li><em>merge_alpha</em> (bool) &#8211; if True, the alpha channel is also blended.  If False,
+the destination image&#8217;s alpha channel is untouched
+and the RGB values are compensated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This example overlays an image called <tt class="docutils literal"><span class="pre">a.jpg</span></tt>, rotated 20 degrees
+and 60% opaque, onto an image called <tt class="docutils literal"><span class="pre">b.jpg</span></tt> at 50, 50.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;b.jpg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;a.jpg&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">dst_pos</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.blur">
+<tt class="descname">blur</tt><big>(</big><em>radius</em><big>)</big><a class="headerlink" href="#imlib2.Image.blur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blur the image in-place.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>radius</em> (int) &#8211; the size of the blur matrix radius (higher values
+produce more blur)</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.clear">
+<tt class="descname">clear</tt><big>(</big><em>pos=(0</em>, <em>0)</em>, <em>size=(0</em>, <em>0)</em><big>)</big><a class="headerlink" href="#imlib2.Image.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the specified rectangle, resetting all pixels in that rectangle
+to fully transparent (<tt class="docutils literal"><span class="pre">#0000</span></tt>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>pos</em> (2-tuple of ints) &#8211; left/top corner of the rectangle</li>
+<li><em>size</em> (2-tuple of ints) &#8211; width and height of the rectangle; if either value is less
+than or equal to zero then they are relatve to the far edge
+of the image</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If this method is called without arguments, the whole image will be cleared.</p>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.Image.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a copy of the current image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a new <a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object, copied from the
+current image.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Any callbacks connected to the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal
+will not be preserved in the copy.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.copy_rect">
+<tt class="descname">copy_rect</tt><big>(</big><em>src_pos</em>, <em>size</em>, <em>dst_pos</em><big>)</big><a class="headerlink" href="#imlib2.Image.copy_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a region within the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>src_pos</em> (2-tuple of ints) &#8211; the x, y coordinates marking the top left of the region
+to be moved.</li>
+<li><em>size</em> (2-tuple of ints) &#8211; the width and height of the region to move.  If either
+dimension is -1, then that dimension extends to the far
+edge of the image.</li>
+<li><em>dst_pos</em> (2-tuple of ints) &#8211; the x, y coordinates within the image where the region
+will be moved to.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.crop">
+<tt class="descname">crop</tt><big>(</big><em>(x</em>, <em>y)</em>, <em>(w</em>, <em>h)</em><big>)</big><a class="headerlink" href="#imlib2.Image.crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop the image and return a new image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>x, y</em> (int) &#8211; left/top offset of cropped image</li>
+<li><em>w, h</em> (int) &#8211; width and height of the cropped image (offset at x);
+values less than or equal to zero are relative to the
+far edge of the image.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a new <a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.jpg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1920x1080 at 0xb73cef6c&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1720x880 at 0x8a73f4c&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.draw_ellipse">
+<tt class="descname">draw_ellipse</tt><big>(</big><em>(xc</em>, <em>yc)</em>, <em>(a</em>, <em>b)</em>, <em>color</em>, <em>fill=True</em><big>)</big><a class="headerlink" href="#imlib2.Image.draw_ellipse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an ellipse (filled or outline) on the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>xc, yc</em> &#8211; the x, y coordinates of the center of the ellipse</li>
+<li><em>a, b</em> (int) &#8211; the horizontal and veritcal amplitude of the ellipse</li>
+<li><em>color</em> &#8211; any value supported by <a title="imlib2.normalize_color" class="reference internal" href="#imlib2.normalize_color"><tt class="xref docutils literal"><span class="pre">imlib2.normalize_color()</span></tt></a></li>
+<li><em>fill</em> &#8211; True if the ellipse should be filled, False if outlined</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.draw_mask">
+<tt class="descname">draw_mask</tt><big>(</big><em>maskimg</em>, <em>pos=(0</em>, <em>0)</em><big>)</big><a class="headerlink" href="#imlib2.Image.draw_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the luma channel of another image to the alpha channel of the
+current image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>maskimg</em> (<a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object) &#8211; the image from which to read the luma channel</li>
+<li><em>pos</em> &#8211; the left/top coordinates within the current image where the
+alpha channel will be modified.  The mask is drawn to the
+full width/height of maskimg.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This example creates a mask for an image with three vertical strips of
+different shades of white.   Once the mask is drawn to the image, the
+image will have three strips of different alpha values: 100% (255),
+73% (187), and 53% (136).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.jpg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">draw_rectangle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;#ffffff&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">draw_rectangle</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;#bbbbbb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">draw_rectangle</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;#888888&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.draw_rectangle">
+<tt class="descname">draw_rectangle</tt><big>(</big><em>(x</em>, <em>y)</em>, <em>(w</em>, <em>h)</em>, <em>color</em>, <em>fill=True</em><big>)</big><a class="headerlink" href="#imlib2.Image.draw_rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a rectangle (filled or outline) on the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>x, y</em> (int) &#8211; the top left corner of the rectangle</li>
+<li><em>w, h</em> (int) &#8211; the width and height of the rectangle; values less than or
+equal to zero are relative to the far edge</li>
+<li><em>color</em> &#8211; any value supported by <a title="imlib2.normalize_color" class="reference internal" href="#imlib2.normalize_color"><tt class="xref docutils literal"><span class="pre">imlib2.normalize_color()</span></tt></a></li>
+<li><em>fill</em> &#8211; True if the rectangle should be filled, False if outlined</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.draw_text">
+<tt class="descname">draw_text</tt><big>(</big><em>(x</em>, <em>y)</em>, <em>text</em>, <em>color=None</em>, <em>font_or_fontname=None</em>, <em>style=None</em>, <em>shadow=None</em>, <em>outline=None</em>, <em>glow=None</em>, <em>glow2=None</em><big>)</big><a class="headerlink" href="#imlib2.Image.draw_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw text on the image, optionally stylized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>x, y</em> (int) &#8211; the left/top coordinates within the current image
+where the text will be rendered</li>
+<li><em>text</em> (str or unicode) &#8211; the text to be rendered</li>
+<li><em>color</em> (3- or 4-tuple of ints) &#8211; any value supported by <a title="imlib2.normalize_color" class="reference internal" href="#imlib2.normalize_color"><tt class="xref docutils literal"><span class="pre">imlib2.normalize_color()</span></tt></a>;
+if None, the color of the font context, as set by
+<a title="imlib2.Image.font" class="reference internal" href="#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a> property, is used.</li>
+<li><em>font_or_fontname</em> &#8211; Font object or &#8216;font/size&#8217; (e.g. &#8216;arial/16&#8217;)</li>
+<li><em>style</em> (a <a class="reference external" href="font.html#textstyles"><em>TEXT_STYLE</em></a> constant) &#8211; the style to use to draw the supplied text. If style is
+None, the style from the font object will be used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a 4-tuple representing the width, height, horizontal advance,
+and vertical advance of the rendered text.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">auto_set_font_path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<span class="go"># Assumes VeraBd.ttf is in the font path.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_text</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="s">&#39;Hello World!&#39;</span><span class="p">,</span> <span class="s">&#39;#ff55ff&#39;</span><span class="p">,</span> <span class="s">&#39;VeraBd/60&#39;</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">style</span><span class="o">=</span><span class="n">imlib2</span><span class="o">.</span><span class="n">TEXT_STYLE_SOFT_SHADOW</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="s">&#39;#888888&#39;</span><span class="p">)</span>
+<span class="go">(557, 92, 557, 93)</span>
+</pre></div>
+</div>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.flip_diagonal">
+<tt class="descname">flip_diagonal</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.Image.flip_diagonal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip the image on along its diagonal, so that the top-right corner is
+mapped to the bottom left.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+<p>In practice:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">flip_diagonal</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>is equivalent to (but a bit faster than):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">orientate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flip_horizontal</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.flip_horizontal">
+<tt class="descname">flip_horizontal</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.Image.flip_horizontal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip the image horizontally (along its vertical axis).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.flip_vertical">
+<tt class="descname">flip_vertical</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.Image.flip_vertical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip the image vertically (along its horizontal axis).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.get_font">
+<tt class="descname">get_font</tt><big>(</big><big>)</big><a class="headerlink" href="#imlib2.Image.get_font" title="Permalink to this definition">¶</a></dt>
+<dd>Deprecated: use the <a title="imlib2.Image.font" class="reference internal" href="#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a> property instead.</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.get_pixel">
+<tt class="descname">get_pixel</tt><big>(</big><em>(x</em>, <em>y)</em><big>)</big><a class="headerlink" href="#imlib2.Image.get_pixel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch the RGBA value of a specifix pixel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>x, y</em> (int) &#8211; the coordinate of the pixel</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">4-tuple of (red, green, blue, alpha) where each value is
+between 0 and 255.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.get_raw_data">
+<tt class="descname">get_raw_data</tt><big>(</big><em>format='BGRA'</em>, <em>write=False</em><big>)</big><a class="headerlink" href="#imlib2.Image.get_raw_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the underlying raw data of the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>format</em> (str) &#8211; the pixel format of the returned buffer; must be a
+permutation of RGB or RGBA (default: <tt class="docutils literal"><span class="pre">BGRA</span></tt>, Imlib2&#8217;s
+native pixel layout).</li>
+<li><em>write</em> (bool) &#8211; if True, the returned buffer will be writable.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a read-only buffer (if <em>write</em> is False and <em>format</em> is
+<tt class="docutils literal"><span class="pre">BGRA</span></tt>) or a read-write buffer (if <em>write</em> is True or
+<em>format</em> is not <tt class="docutils literal"><span class="pre">BGRA</span></tt>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>When <em>format</em> is not <tt class="docutils literal"><span class="pre">BGRA</span></tt> (i.e. not Imlib2&#8217;s native buffer), pixel
+format conversion will be performed and the converted raw data copied
+to a newly allocated buffer.  The returned buffer will therefore always
+be read-write.  Writing to this buffer will have no effect on the image.</p>
+<p>When <em>format</em> is <tt class="docutils literal"><span class="pre">BGRA</span></tt>, the returned buffer will map directly onto
+Imlib2&#8217;s underlying pixel buffer.  In this case, the returned buffer will
+only be read-write if <em>write</em> is True, which will allow you to directly
+manipulate the underlying buffer.  You must call
+<a title="imlib2.Image.put_back_raw_data" class="reference internal" href="#imlib2.Image.put_back_raw_data"><tt class="xref docutils literal"><span class="pre">put_back_raw_data()</span></tt></a> when you&#8217;re done writing to the
+buffer.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.jpg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_raw_data</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="go"># Set first pixel to white.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buf</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\xff</span><span class="s">&#39;</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">put_back_raw_data</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">see <a title="imlib2.new" class="reference internal" href="#imlib2.new"><tt class="xref docutils literal"><span class="pre">imlib2.new()</span></tt></a> for more information on the pixel
+layout.  When modifying the buffer directly, you must be aware of
+the endianness of the machine.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.orientate">
+<tt class="descname">orientate</tt><big>(</big><em>orientation</em><big>)</big><a class="headerlink" href="#imlib2.Image.orientate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform in-place 90 degree rotations on the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>orientation</em> (int) &#8211; 0 = no rotation, 1 = rotate clockwise 90 degrees,
+2 = rotate clockwise 180 degrees, 3 = rotate
+clockwise 270 degrees.</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.put_back_raw_data">
+<tt class="descname">put_back_raw_data</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#imlib2.Image.put_back_raw_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put back the writable buffer that was obtained with
+<a title="imlib2.Image.get_raw_data" class="reference internal" href="#imlib2.Image.get_raw_data"><tt class="xref docutils literal"><span class="pre">get_raw_data()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>data</em> (buffer) &#8211; the read-write buffer that was gotten from
+<a title="imlib2.Image.get_raw_data" class="reference internal" href="#imlib2.Image.get_raw_data"><tt class="xref docutils literal"><span class="pre">get_raw_data()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Changes made directly to the buffer will not be reflected in the image
+until this method is called.  If you modify the buffer again, you must
+call this method again (but you needn&#8217;t call
+<a title="imlib2.Image.get_raw_data" class="reference internal" href="#imlib2.Image.get_raw_data"><tt class="xref docutils literal"><span class="pre">get_raw_data()</span></tt></a> again).</p>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.rotate">
+<tt class="descname">rotate</tt><big>(</big><em>angle</em><big>)</big><a class="headerlink" href="#imlib2.Image.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate the image and return a new image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>angle</em> (float) &#8211; the angle in degrees to rotate</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a new <a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+<p>The new image will be sized to fit the full contents of the rotated
+image, and likely quite a bit larger than it needs to be.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.png&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">size</span>
+<span class="go">(1920, 1080)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">size</span>
+<span class="go">(2208, 2208)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.save">
+<tt class="descname">save</tt><big>(</big><em>filename</em>, <em>format=None</em><big>)</big><a class="headerlink" href="#imlib2.Image.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the image to a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>filename</em> (str) &#8211; the output filename</li>
+<li><em>format</em> &#8211; the encoding format (jpeg, png, etc.); if None, will
+be derived from the filename extension.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.scale">
+<tt class="descname">scale</tt><big>(</big><em>size</em>, <em>src_pos=(0</em>, <em>0)</em>, <em>src_size=(-1</em>, <em>-1)</em><big>)</big><a class="headerlink" href="#imlib2.Image.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale the image and return a new image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>size</em> (2-tuple of ints) &#8211; the width and height of scaled image; if either
+width or height is -1, that dimension is calculated
+from the other dimension while preserving the aspect
+ratio.</li>
+<li><em>src_pos</em> (2-tuple of ints) &#8211; offset within the source image which will correspond
+to position (0,0) in the scaled image.</li>
+<li><em>src_size</em> (2-tuple of ints) &#8211; the amount of width and height of the source image to
+include (scaled) in the new image; if either dimension
+is -1, it will extend to the right or bottom border.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a new <a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">imlib2.Image</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.scale_preserve_aspect">
+<tt class="descname">scale_preserve_aspect</tt><big>(</big><em>(w</em>, <em>h)</em><big>)</big><a class="headerlink" href="#imlib2.Image.scale_preserve_aspect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale the image while preserving the original aspect ratio and return a
+new image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>w</em> &#8211; the maximum width of the new image</li>
+<li><em>w</em> (int) &#8211; the maximum height of the new image</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a new <a title="imlib2.Image" class="reference internal" href="#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The new image will be as large as possible, using <em>w</em> and <em>h</em> as
+the upper limits, while retaining the original aspect ratio.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.set_alpha">
+<tt class="descname">set_alpha</tt><big>(</big><em>has_alpha</em><big>)</big><a class="headerlink" href="#imlib2.Image.set_alpha" title="Permalink to this definition">¶</a></dt>
+<dd>Deprecated: use <a title="imlib2.Image.set_has_alpha" class="reference internal" href="#imlib2.Image.set_has_alpha"><tt class="xref docutils literal"><span class="pre">set_has_alpha()</span></tt></a> instead.</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.set_font">
+<tt class="descname">set_font</tt><big>(</big><em>font_or_font_name</em><big>)</big><a class="headerlink" href="#imlib2.Image.set_font" title="Permalink to this definition">¶</a></dt>
+<dd>Deprecated: use the <a title="imlib2.Image.font" class="reference internal" href="#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a> property instead.</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.set_has_alpha">
+<tt class="descname">set_has_alpha</tt><big>(</big><em>has_alpha</em><big>)</big><a class="headerlink" href="#imlib2.Image.set_has_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable the alpha channel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>has_alpha</em> (False) &#8211; True if the alpha channel should be considered,
+False if the image is the alpha channel should be
+ignored (and the image is fully opaque)</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.sharpen">
+<tt class="descname">sharpen</tt><big>(</big><em>radius</em><big>)</big><a class="headerlink" href="#imlib2.Image.sharpen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sharpen the image in-place.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>radius</em> (int) &#8211; the size of the sharpen radius (higher values produce
+greater sharpening)</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="imlib2.Image.thumbnail">
+<tt class="descname">thumbnail</tt><big>(</big><em>(w</em>, <em>h)</em><big>)</big><a class="headerlink" href="#imlib2.Image.thumbnail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale the image in-place, preserving the original aspect ratio.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>w</em> &#8211; the maximum width of the new image</li>
+<li><em>w</em> (int) &#8211; the maximum height of the new image</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This implements behaviour of the PIL function of the same name.</p>
+<p>Calling this method will emit the <a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<h4>Properties</h4><dl class="attribute">
+<dt id="imlib2.Image.filename">
+<tt class="descname">filename</tt><a class="headerlink" href="#imlib2.Image.filename" title="Permalink to this definition">¶</a></dt>
+<dd>The filename of the image if lodaed from a file, None otherwise.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.font">
+<tt class="descname">font</tt><a class="headerlink" href="#imlib2.Image.font" title="Permalink to this definition">¶</a></dt>
+<dd><p><a title="imlib2.Font" class="reference external" href="font.html#imlib2.Font"><tt class="xref docutils literal"><span class="pre">Font</span></tt></a> object specifying font context used by
+<a title="imlib2.Image.draw_text" class="reference internal" href="#imlib2.Image.draw_text"><tt class="xref docutils literal"><span class="pre">draw_text()</span></tt></a>, or None if no font was set.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">auto_set_font_path</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s">&#39;VeraBd/60&#39;</span><span class="p">,</span> <span class="s">&#39;#ff55ff&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="n">imlib2</span><span class="o">.</span><span class="n">TEXT_STYLE_SOFT_SHADOW</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="s">&#39;#888888&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_text</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="s">&#39;Hello World!&#39;</span><span class="p">)</span>
+<span class="go">(557, 92, 557, 93)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.format">
+<tt class="descname">format</tt><a class="headerlink" href="#imlib2.Image.format" title="Permalink to this definition">¶</a></dt>
+<dd>The encoded format (e.g. &#8216;png&#8217;, &#8216;jpeg&#8217;) of the image if loaded from a
+file, None otherwise.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.has_alpha">
+<tt class="descname">has_alpha</tt><a class="headerlink" href="#imlib2.Image.has_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the image has an alpha channel, False otherwise.</p>
+<p>This can be changed via the <a title="imlib2.Image.set_has_alpha" class="reference internal" href="#imlib2.Image.set_has_alpha"><tt class="xref docutils literal"><span class="pre">set_has_alpha()</span></tt></a> method
+rather than setting this property, because
+<a title="imlib2.Image.set_has_alpha" class="reference internal" href="#imlib2.Image.set_has_alpha"><tt class="xref docutils literal"><span class="pre">set_has_alpha()</span></tt></a> has a side-effect of emitting the
+<a title="imlib2.Image.signals.changed" class="reference internal" href="#imlib2.Image.signals.changed"><tt class="xref docutils literal"><span class="pre">changed</span></tt></a> signal.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.height">
+<tt class="descname">height</tt><a class="headerlink" href="#imlib2.Image.height" title="Permalink to this definition">¶</a></dt>
+<dd>The height of the image in pixels.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.mode">
+<tt class="descname">mode</tt><a class="headerlink" href="#imlib2.Image.mode" title="Permalink to this definition">¶</a></dt>
+<dd>The pixel format of the decoded image in memory (always <tt class="docutils literal"><span class="pre">BGRA</span></tt>).</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.rowstride">
+<tt class="descname">rowstride</tt><a class="headerlink" href="#imlib2.Image.rowstride" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of bytes each row of pixels occupies in memory.</p>
+<p>This is typically width * 4.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.size">
+<tt class="descname">size</tt><a class="headerlink" href="#imlib2.Image.size" title="Permalink to this definition">¶</a></dt>
+<dd>A 2-tuple of the width and height of the image in pixels.</dd></dl>
+
+<dl class="attribute">
+<dt id="imlib2.Image.width">
+<tt class="descname">width</tt><a class="headerlink" href="#imlib2.Image.width" title="Permalink to this definition">¶</a></dt>
+<dd>The width of the image in pixels.</dd></dl>
+
+<h4>Signals</h4><dl class="attribute">
+<dt id="imlib2.Image.signals.changed">
+<tt class="descname">changed</tt><a class="headerlink" href="#imlib2.Image.signals.changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emitted when the image has been altered in some way.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">def callback(...)</tt></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</p>
+</dd></dl>
+
+</p>
+</div>
+<div class="section" id="utility-functions">
+<h2>Utility Functions<a class="headerlink" href="#utility-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="imlib2.get_max_rectangle_size">
+<tt class="descclassname">imlib2.</tt><tt class="descname">get_max_rectangle_size</tt><big>(</big><em>(w</em>, <em>h)</em>, <em>(max_w</em>, <em>max_h)</em><big>)</big><a class="headerlink" href="#imlib2.get_max_rectangle_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the largest rectangle that can fit within one given rectangle, while
+retaining the aspect ratio of the other given rectangle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>w, h</em> (int) &#8211; the dimensions of the rectangle whose aspect ratio to preserve</li>
+<li><em>max_w, max_h</em> (int) &#8211; the maximum dimensions of the computed rectangle</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(width, height) of the bound, aspect-preserved rectangle</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="imlib2.normalize_color">
+<tt class="descclassname">imlib2.</tt><tt class="descname">normalize_color</tt><big>(</big><em>code</em><big>)</big><a class="headerlink" href="#imlib2.normalize_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an HTML-style color code or an RGB 3-tuple into a 4-tuple of
+integers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>code</em> (str or 3- or 4-tuple) &#8211; a color code in the form <tt class="docutils literal"><span class="pre">#rrggbbaa</span></tt>, <tt class="docutils literal"><span class="pre">#rrggbb</span></tt>,
+<tt class="docutils literal"><span class="pre">#rgba</span></tt> or <tt class="docutils literal"><span class="pre">#rgb</span></tt>, or a 3- or 4-tuple of integers
+specifying (red, green, blue, alpha).</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a 4-tuple of integers from 0-255 representing red, green, blue
+and alpha channels; if alpha is not specified in the color
+code, 255 is assumed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Images</a><ul>
+<li><a class="reference external" href="#opening-and-creating-images">Opening and Creating Images</a></li>
+<li><a class="reference external" href="#image-cache">Image Cache</a></li>
+<li><a class="reference external" href="#image-objects">Image Objects</a></li>
+<li><a class="reference external" href="#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">kaa.imlib2 &#8212; Image Processing Library</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="font.html"
+                                  title="next chapter">Fonts</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/image.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="font.html" title="Fonts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="kaa.imlib2 — Image Processing Library"
+             >previous</a> |</li>
+        <li><a href="index.html">kaa.imlib2 v0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2004-2010, Dirk Meyer, Jason Tackaberry.
+      Last updated on Jan 15, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

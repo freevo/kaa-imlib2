@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kaa.imlib2 — Image Processing Library &mdash; kaa.imlib2 v0.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/kaa.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.3.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kaa.imlib2 v0.3.0 documentation" href="#" />
+    <link rel="next" title="Images" href="image.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="image.html" title="Images"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">kaa.imlib2 v0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="kaa-imlib2-image-processing-library">
+<h1>kaa.imlib2 &#8212; Image Processing Library<a class="headerlink" href="#kaa-imlib2-image-processing-library" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-kaa-imlib2">
+<h2>What is kaa.imlib2?<a class="headerlink" href="#what-is-kaa-imlib2" title="Permalink to this headline">¶</a></h2>
+<p>kaa.imlib2 provides thread-safe Python bindings for Imlib2, a featureful and
+efficient image processing library, which produces high quality, anti-aliased
+output.</p>
+<p>Although kaa.imlib2 does not yet provide complete coverage of the Imlib2
+library, most common functions are implemented.  It also implements some custom
+functionality not found in Imlib2, such as <a title="imlib2.Image.draw_mask" class="reference external" href="image.html#imlib2.Image.draw_mask"><tt class="xref docutils literal"><span class="pre">Image.draw_mask</span></tt></a>.</p>
+<p>In addition to Imlib2 itself, kaa.imlib2, as with all kaa modules, requires
+<a class="reference external" href="http://doc.freevo.org/api/kaa/base/">kaa.base</a>.</p>
+</div>
+<div class="section" id="where-do-i-get-kaa-imlib2">
+<h2>Where do I get kaa.imlib2?<a class="headerlink" href="#where-do-i-get-kaa-imlib2" title="Permalink to this headline">¶</a></h2>
+<p>The easiest and recommended way to install kaa.imlib2 is using <em>pip</em> (available
+as the <tt class="docutils literal"><span class="pre">python-pip</span></tt> package in Ubuntu and Fedora):</p>
+<div class="highlight-python"><pre>sudo pip install --upgrade kaa-imlib2</pre>
+</div>
+<p>Or, if you prefer to install kaa.imlib2 as an egg using <em>setuptools</em> (package
+<tt class="docutils literal"><span class="pre">python-setuptools</span></tt> on Ubuntu and Fedora):</p>
+<div class="highlight-python"><pre>sudo easy_install -U kaa-imlib2</pre>
+</div>
+<p>Your distribution might already have kaa.imlib2 included in its standard
+repositories, but be aware that these are almost certainly very out of date:</p>
+<div class="highlight-python"><pre># For Ubuntu and Debian
+sudo apt-get install python-kaa-imlib2
+
+# For Fedora
+yum install python-kaa-imlib2</pre>
+</div>
+<p>The most recent in-development version can be obtained via subversion:</p>
+<div class="highlight-python"><pre>svn co svn://svn.freevo.org/kaa/trunk/imlib2 kaa-imlib2
+cd kaa-imlib2
+sudo python setup.py install</pre>
+</div>
+<p>Finally, source packages are <a class="reference external" href="http://sourceforge.net/projects/freevo/files/kaa-imlib2/">available on SourceForge</a>.</p>
+</div>
+</div>
+<div class="section" id="api-documentation">
+<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="image.html">Images</a><ul>
+<li class="toctree-l2"><a class="reference external" href="image.html#opening-and-creating-images">Opening and Creating Images</a></li>
+<li class="toctree-l2"><a class="reference external" href="image.html#image-cache">Image Cache</a></li>
+<li class="toctree-l2"><a class="reference external" href="image.html#image-objects">Image Objects</a></li>
+<li class="toctree-l2"><a class="reference external" href="image.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="font.html">Fonts</a><ul>
+<li class="toctree-l2"><a class="reference external" href="font.html#text-styles">Text Styles</a></li>
+<li class="toctree-l2"><a class="reference external" href="font.html#font-objects">Font Objects</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="how-do-i-use-kaa-imlib2">
+<h2>How do I use kaa.imlib2?<a class="headerlink" href="#how-do-i-use-kaa-imlib2" title="Permalink to this headline">¶</a></h2>
+<p>Here are some examples to give you a feeling for basic usage.</p>
+<p>First, import the module:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kaa</span> <span class="kn">import</span> <span class="n">imlib2</span>
+</pre></div>
+</div>
+<p>Imlib2 supports most common image formats (jpeg, png, gif, tiff, bmp, etc.),
+and can be loaded with <a title="imlib2.open" class="reference external" href="image.html#imlib2.open"><tt class="xref docutils literal"><span class="pre">imlib2.open()</span></tt></a>, which returns an
+<a title="imlib2.Image" class="reference external" href="image.html#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.png&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1920x1080 at 0xb74c470c&gt;</span>
+</pre></div>
+</div>
+<p>By default, decoded images are cached internally so that subsequent loads
+pull from the cache.  If for some reason you want to bypass the cache, you
+can use <a title="imlib2.open_without_cache" class="reference external" href="image.html#imlib2.open_without_cache"><tt class="xref docutils literal"><span class="pre">imlib2.open_without_cache()</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open_without_cache</span><span class="p">(</span><span class="s">&#39;file.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or, you can disable caching altogether:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">set_cache_size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">get_cache_size</span><span class="p">()</span>
+<span class="go">0L</span>
+</pre></div>
+</div>
+<p>There are a number of useful properties:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">height</span>
+<span class="go">(&#39;file.png&#39;, &#39;png&#39;, 1920, 1080)</span>
+</pre></div>
+</div>
+<p>Rasterizing SVG into <a title="imlib2.Image" class="reference external" href="image.html#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> objects is supported (provided
+libsvg support is compiled into kaa.imlib2).  You can render the SVG at the
+native resolution (if one is stored in the SVG) or at a custom resolution:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;file.svg&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If you have an image file in memory, you can decode directly from the buffer
+using <a title="imlib2.open_from_memory" class="reference external" href="image.html#imlib2.open_from_memory"><tt class="xref docutils literal"><span class="pre">imlib2.open_from_memory()</span></tt></a>.</p>
+<p>Lastly, you can create a <a title="imlib2.new" class="reference external" href="image.html#imlib2.new"><tt class="xref docutils literal"><span class="pre">new()</span></tt></a> image, optionally with a pixel
+buffer (in some RGB colorspace, e.g. <tt class="docutils literal"><span class="pre">BGRA</span></tt>, <tt class="docutils literal"><span class="pre">RGB</span></tt>, <tt class="docutils literal"><span class="pre">ARGB</span></tt>, etc.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">new</span><span class="p">((</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Many manipulations to <a title="imlib2.Image" class="reference external" href="image.html#imlib2.Image"><tt class="xref docutils literal"><span class="pre">Image</span></tt></a> objects are possible.  Some
+return new objects, while others return self (to allow for convenient chaining
+of manipulations); you&#8217;ll need to consult the method documentation to see
+what the return value is.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_rectangle</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">),</span> <span class="s">&#39;#ff0000aa&#39;</span><span class="p">)</span>
+<span class="go">&lt;kaa.imlib2.Image object size=1920x1080 at 0x8571c0c&gt;</span>
+</pre></div>
+</div>
+<p>Notice that sizes can be negative (and zero), in which case they produce a
+width or height relative to the far edge of the image.  Negative positions are
+also relative to the edge.  Also notice that colors can be specified as the
+familiar hex color code used in HTML.  3- or 4-tuples of RGB[A] values are also
+supported.</p>
+<p>You can overlay other images using the flexible <a title="imlib2.Image.blend" class="reference external" href="image.html#imlib2.Image.blend"><tt class="xref docutils literal"><span class="pre">blend()</span></tt></a>
+method, which lets you scale, crop, and composite simultaneously:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">watermark</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;watermark.png&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">watermark</span><span class="p">,</span> <span class="n">dst_pos</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">watermark</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="o">-</span><span class="n">watermark</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Imlib2 can render text from TrueType fonts.  You first need to tell Imlib2
+where to find fonts, but kaa.imlib2 offers a convenience function to initialize
+the font path from what Fontconfig knows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imlib2</span><span class="o">.</span><span class="n">auto_set_font_path</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you reference the font names based on the (case-sensitive) filename of
+the <tt class="docutils literal"><span class="pre">.ttf</span></tt> file.  Assuming you had <tt class="docutils literal"><span class="pre">VeraBd</span></tt> in your font path:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_text</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s">&#39;Hello world!&#39;</span><span class="p">,</span> <span class="s">&#39;#ffffff&#39;</span><span class="p">,</span> <span class="s">&#39;VeraBd/60&#39;</span><span class="p">)</span>
+<span class="go">(546, 92, 546, 93)</span>
+</pre></div>
+</div>
+<p>The return value shows the metrics of the rendered text.
+<a title="imlib2.Image.draw_text" class="reference external" href="image.html#imlib2.Image.draw_text"><tt class="xref docutils literal"><span class="pre">imlib2.Image.draw_text()</span></tt></a> has many options to render text.  It also supports
+text styles such as drop shadows and outlines.  Rather than specifying the font
+name, size, style, color, etc. each time, you can instead create a <a title="imlib2.Font" class="reference external" href="font.html#imlib2.Font"><tt class="xref docutils literal"><span class="pre">Font</span></tt></a>
+object and assign it to the image&#8217;s <a title="imlib2.Image.font" class="reference external" href="image.html#imlib2.Image.font"><tt class="xref docutils literal"><span class="pre">font</span></tt></a> property:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">imlib2</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s">&#39;VeraBd/60&#39;</span><span class="p">,</span> <span class="s">&#39;#ffffff&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="n">imlib2</span><span class="o">.</span><span class="n">TEXT_STYLE_SOFT_SHADOW</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="s">&#39;#558855&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_text</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="s">&#39;Uses the default style&#39;</span><span class="p">)</span>
+<span class="go">(989, 92, 989, 93)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_text</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span> <span class="s">&#39;But you can still override&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;#ff000055&#39;</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">shadow</span><span class="o">=</span><span class="s">&#39;#00ff00aa&#39;</span><span class="p">)</span>
+<span class="go">(1134, 92, 1134, 93)</span>
+</pre></div>
+</div>
+<p>One benefit of using Font objects is access to the method
+<a title="imlib2.Font.get_text_size" class="reference external" href="font.html#imlib2.Font.get_text_size"><tt class="xref docutils literal"><span class="pre">get_text_size()</span></tt></a>, to precompute the metrics of the text
+as it would be rendered.  This is useful if, for example, you want to center
+text, or otherwise position it where you&#8217;d need to know the rendered size
+beforehand.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">get_text_size</span><span class="p">(</span><span class="s">&#39;Centered&#39;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(((</span><span class="n">img</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="s">&#39;Centered&#39;</span><span class="p">)</span>
+<span class="go">(618, 139, 618, 139)</span>
+</pre></div>
+</div>
+<p>The above is just a small sample of what can be done with kaa.imlib2.  Refer
+to the library documentation for full details and more examples.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="#">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">kaa.imlib2 &#8212; Image Processing Library</a><ul>
+<li><a class="reference external" href="#what-is-kaa-imlib2">What is kaa.imlib2?</a></li>
+<li><a class="reference external" href="#where-do-i-get-kaa-imlib2">Where do I get kaa.imlib2?</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#api-documentation">API Documentation</a><ul>
+<li><a class="reference external" href="#how-do-i-use-kaa-imlib2">How do I use kaa.imlib2?</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Next topic</h4>
+            <p class="topless"><a href="image.html"
+                                  title="next chapter">Images</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/index.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="image.html" title="Images"
+             >next</a> |</li>
+        <li><a href="#">kaa.imlib2 v0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2004-2010, Dirk Meyer, Jason Tackaberry.
+      Last updated on Jan 15, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>
