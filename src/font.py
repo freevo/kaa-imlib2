@@ -49,7 +49,6 @@ except ImportError:
 
 # imlib2 wrapper
 import _Imlib2
-from kaa.utils import property
 from kaa.strutils import utf8
 
 TEXT_STYLE_PLAIN = 0

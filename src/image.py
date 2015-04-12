@@ -43,7 +43,6 @@ import errno
 # imlib2 wrapper
 import _Imlib2
 from kaa import Signal, Object
-from kaa.utils import property
 from kaa.strutils import utf8
 from font import *
 
