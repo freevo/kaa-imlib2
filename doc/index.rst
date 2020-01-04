@@ -14,7 +14,7 @@ functionality not found in Imlib2, such as :meth:`Image.draw_mask
 <imlib2.Image.draw_mask>`.
 
 In addition to Imlib2 itself, kaa.imlib2, as with all kaa modules, requires
-`kaa.base <http://doc.freevo.org/api/kaa/base/>`_.
+`kaa.base <http://freevo.github.io/api/kaa/base/>`_.
 
 
 Where do I get kaa.imlib2?

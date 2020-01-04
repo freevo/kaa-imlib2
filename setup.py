@@ -80,7 +80,7 @@ setup(
     module = MODULE,
     version = VERSION,
     license = 'LGPL',
-    url = 'http://doc.freevo.org/api/kaa/imlib2/',
+    url = 'http://freevo.github.io/api/kaa/imlib2/',
     summary = 'Python bindings for Imlib2, a powerful and efficient image processing library.',
     description = 'kaa.imlib2 provides thread-safe Python bindings for Imlib2, a featureful '
                    'and efficient image processing library, which produces high quality, '
